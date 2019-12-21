@@ -1,0 +1,20 @@
+Package: acreular
+Type: Package
+Title: Methods for Calculating 'ACR' and 'EULAR' based Scores and Classifications
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Fraser", "Morton", email = "fraser.morton@glasgow.ac.uk", role = c("aut", "cre")),
+    person(c("Jagtar", "Singh"), "Nijjar", email = "jsn33@medschl.cam.ac.uk", role = "aut"))
+Description: The American College of Rheumatology (ACR) and the European League Against 
+    Rheumatism (EULAR) individually and collaboratively have produced diagnositic
+    classification criteria for a range of different rheumatic diseases. The acreular 
+    package brings together methods for calculating these measures into a single package. 
+    Additionally, a shiny web tool is included to enable the calculation and visualisation 
+    of different scores via a web browser using criteria stored in CSV or Excel files.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat
+URL: https://github.com/fragla/acreular
+BugReports: https://github.com/fragla/acreular/issues
