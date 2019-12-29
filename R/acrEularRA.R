@@ -1,68 +1,72 @@
-##acrEularRA class
+#' Create a new acrEularRA class
+#'
+#' \code{new_acrEularRA} returns an acrEularRA object.
+#'
+#' @param ljc numeric large joint count. Value between 0 and 10 of total
+#' number of swollen and/or tender large joints.
+#' @param sjc numeric small joint count. Value between 0 and 18 of total
+#' number of swollen and/or tender small joints.
+#' @param duration numeric patient’s self-report on the maximum duration
+#' (in days) of signs and symptoms of any joint that is clinically
+#' involved at the time of assessment.
+#' @param apr character acute phase reactant levels. "Normal" or "Abnormal"
+#' @param serology character CCP and/or rheumatoid factor levels. "Negative",
+#' "Low" positive or "High" positive.
+#'
+#' @return An acrEularRA object.
+#'
+#' @examples
+#'  obj <- new_acrEularRA(ljc=8, sjc=12, duration=43, apr="Normal", serology="High")
+#'
+#' @export
 new_acrEularRA <- function(ljc=numeric(), sjc=numeric(), duration=numeric(),
-                          crp=numeric(), esr=numeric(),
-                          ccp=numeric(), rf=numeric()) {
+                          apr=character(), serology=character()) {
 
-  value <- list(ljc=ljc, sjc=sjc, duration=duration, crp=crp, esr=esr, ccp=ccp, rf=rf)
+  value <- list(ljc=ljc, sjc=sjc, duration=duration, apr=apr, serology=serology)
 
   attr(value, "class") <- "acrEularRA"
   return(value)
 }
 
-##AcrEularRA score
-acrEularRAScore <- function(object, ...) {
-  arguments <- list(...)
-  message(paste(names(arguments)))
-  aprScore(object, ...) + durationScore(object) + jointScore(object) + serologyScore(object, ...)
-}
+#' Calculate acute phase reactant component score
+#'
+#' Calculate acute phase reactant component score. Converts acute phase
+#' reactant status to a numeric score
+#'
+#' @param object acrEularRA object
+#' @examples
+#' acreular <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Abnormal",serology="High")
+#' aprScore(acreular)
+#'
+#' @export
+aprScore <- function(object) {
+  score <- NA
 
-acrEularClassification <- function(object, ...) {
-  arguments <- list(...)
-  message(paste(names(arguments)))
-  score <- acrEularRAScore(object, ...)
-
-  if(is.na(score))
-    return()
-
-  classif <- ifelse(score >= 6, "RA (ACR/EULAR 2010)", "UA")
-  return(classif)
-}
-
-##Acute Phase Reactant Score
-aprScore <- function(object, crp.uln=10, esr.uln=15) { ##change crp to 6?
-  score <- 0
-
-  if((is.na(crp.uln) && is.na(esr.uln))) {
-    stop("No upper limit of normal specified.")
-  }
-
-  if(length(crp.uln)==0 && length(esr.uln)==0) {
-    stop("No upper limit of normal specified.")
-  }
-
-  if(!is.numeric(crp.uln) || !is.numeric(esr.uln)) {
-    stop("No upper limit of normal specified.")
-  }
-
-  if(is.na(object$crp) && is.na(object$esr)) {
+  if(is.na(object$apr) || length(object$apr)==0) {
     return(NA)
   }
 
-  if(length(object$crp)==0 && length(object$esr)==0) {
-    return(NA)
-  }
-
-  if(!is.numeric(object$crp) || !is.numeric(object$esr)) {
-    return(NA)
-  }
-
-  if(object$crp > crp.uln || object$esr > esr.uln) {
+  if(object$apr=="Abnormal") {
     score <- 1
+  } else if(object$apr=="Normal") {
+    score <- 0
+  } else {
+    score <- NA
   }
-
   return(score)
 }
 
+#' Calculate duration component score
+#'
+#' Calculate duration component score. Converts patients self-reported duration
+#' of signs and symptoms (in days) to a numeric score
+#'
+#' @param object acrEularRA object
+#' @examples
+#' acreular <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Abnormal",serology="High")
+#' durationScore(acreular)
+#'
+#' @export
 durationScore <- function(object) {
   score <- 0
   if(is.na(object$duration) || length(object$duration)==0) {
@@ -75,6 +79,17 @@ durationScore <- function(object) {
   return(score)
 }
 
+#' Calculate joint component score
+#'
+#' Calculate joint component score. Converts patients swollen/tender joint
+#' counts to a numeric score.
+#'
+#' @param object acrEularRA object
+#' @examples
+#' acreular <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Abnormal",serology="High")
+#' jointScore(acreular)
+#'
+#' @export
 jointScore <- function(object) {
   score <- 0
 
@@ -105,48 +120,168 @@ jointScore <- function(object) {
   return(score)
 }
 
-serologyScore <- function(object, ccp.uln=10, rf.uln=20) { #pass in as high/low/neg?
-  score <- 0
+#' Calculate serology component score
+#'
+#' Calculate joint component score. Converts patients serology status to
+#' a numeric score.
+#'
+#' @param object acrEularRA object
+#' @examples
+#' acreular <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Abnormal",serology="High")
+#' serologyScore(acreular)
+#'
+#' @export
+serologyScore <- function(object) {
+  score <- NA
 
-  if(is.na(object$ccp) && is.na(object$rf)) {
-    return(NA)
+  if((!is.na(object$serology) & tolower(object$serology) == "negative")) {
+    score <- 0
   }
 
-  ccp <- serologyClassification(object$ccp, ccp.uln)
-  rf <- serologyClassification(object$rf, rf.uln)
-
-  categories <- c("negative", "low", "high")
-
-  ccp <- tolower(ccp)
-  rf <- tolower(rf)
-
-  if((!is.na(ccp) & tolower(ccp) == "low") || (!is.na(rf) & tolower(rf) == "low")) {
+  if((!is.na(object$serology) & tolower(object$serology) == "low")) {
     score <- 2
   }
 
-  if((!is.na(ccp) & tolower(ccp) == "high") || (!is.na(rf) & tolower(rf) == "high")) {
+  if((!is.na(object$serology) & tolower(object$serology) == "high")) {
     score <- 3
   }
-
-  if(!tolower(ccp) %in% categories && !tolower(rf) %in% categories) {
-    score <- NA
-  }
-
   return(score)
 }
 
-serologyClassification <- function(score, uln) {
-  ####VALIDATIONS for score and uln~~~~~
-  if(!is.numeric(score)) {
+#' Calculate ACR/EULAR 2010 RA score
+#'
+#' Calculates ACR/EULAR 2010 RA score from the individual components.
+#'
+#' @param object acrEularRA object
+#' @examples
+#' acreular <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Abnormal",serology="High")
+#' acrEularRAScore(acreular)
+#'
+#' @export
+acrEularRAScore <- function(object) {
+  aprScore(object) + durationScore(object) + jointScore(object) + serologyScore(object)
+}
+
+#' Calculate ACR/EULAR 2010 RA classification
+#'
+#' Calculates ACR/EULAR 2010 RA classification from the individual components.
+#'
+#' @param object acrEularRA object
+#' @examples
+#' acreular <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Abnormal",serology="High")
+#' acrEularRAClassification(acreular)
+#'
+#' @export
+acrEularRAClassification <- function(object) {
+
+  score <- acrEularRAScore(object)
+
+  if(is.na(score))
+    return()
+
+  classif <- ifelse(score >= 6, "RA (ACR/EULAR 2010)", "UA")
+  return(classif)
+}
+
+#' Calculate serology classification from test scores and ULN
+#'
+#' Calculates serology classification for CCP and/or rheumatoid factor given
+#' the test scores and the upper limit of normal..
+#'
+#' @param score numeric of serology test result
+#' @param uln numeric for upper limit of normal for the serology test
+#' @examples
+#' serologyClassification(ccp=9, rf=21, ccp.uln=10, rf.uln=20)
+#'
+#' @export
+serologyClassification <- function(ccp, rf, ccp.uln=10, rf.uln=20) {
+
+  #what if only ccp or rf done
+  ccp <- .serologyClassif(ccp, ccp.uln)
+  rf <- .serologyClassif(rf, rf.uln)
+
+  if(is.na(ccp) & is.na(rf)) {
     return(NA)
   }
 
-  classification <- "negative"
+  classif <- "Negative"
 
-  if(score > uln * 3) {
-    classification <- "high"
-  } else if(score > uln) {
-    classification <- "low"
+  if((!is.na(ccp) && ccp=="Low") || (!is.na(rf) && rf== "Low")) {
+    classif <- "Low"
+  }
+
+  if((!is.na(ccp) && ccp=="High") || (!is.na(rf) && rf== "High")) {
+    classif <- "High"
+  }
+
+  return(classif)
+}
+
+.serologyClassif <- function(score, uln) {
+   if(is.na(score) || !is.numeric(score)) {
+     return(NA)
+   }
+
+  if(is.na(uln) || !is.numeric(uln)) {
+    stop("Incorrect serolohy ULN parameter used.")
+  }
+
+   classification <- "Negative"
+
+   if(score > uln * 3) {
+     classification <- "High"
+   } else if(score > uln) {
+     classification <- "Low"
+   }
+
+   return(classification)
+}
+
+#' Calculate acute phase reactant classification from test scores and ULN.
+#'
+#' Calculates acute phase reactant classification for given the C-reactive
+#' protein and ESR test scores and the upper limit of normal.
+#'
+#' @param crp numeric of C-reactive protein test result.
+#' @param esr numeric of erythrocyte sedimentation rate test result.
+#' @param crp.uln numeric for upper limit of normal for the C-reactive protein test.
+#' @param esr.uln numeric for upper limit of normal for the erythrocyte sedimentation
+#' rate test.
+#' @examples
+#' aprClassification(crp=9, esr=16, crp.uln=10, esr.uln=15)
+#'
+#' @export
+aprClassification <- function(crp, esr, crp.uln=10, esr.uln=15) {
+  #what if only ccp or rf done
+  crp <- .aprClassif(crp, crp.uln)
+  esr <- .aprClassif(esr, esr.uln)
+
+  if(is.na(crp) & is.na(esr)) {
+    return(NA)
+  }
+
+  classif <- "Normal"
+
+  if((!is.na(crp) && crp=="Abnormal") || (!is.na(esr) && esr== "Abnormal")) {
+    classif <- "Abnormal"
+  }
+
+  return(classif)
+}
+
+.aprClassif <- function(score, uln) {
+  if(is.na(score) || !is.numeric(score)) {
+    return(NA)
+  }
+
+  if(is.na(uln) || !is.numeric(uln)) {
+    stop("Incorrect APR ULN parameter used.")
+  }
+
+  classification <- "Normal"
+
+  if(score > uln) {
+    classification <- "Abnormal"
   }
 
   return(classification)

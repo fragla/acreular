@@ -18,3 +18,4 @@ Suggests:
     testthat
 URL: https://github.com/fragla/acreular
 BugReports: https://github.com/fragla/acreular/issues
+RoxygenNote: 6.1.1
