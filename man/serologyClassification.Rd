@@ -7,9 +7,13 @@
 serologyClassification(ccp, rf, ccp.uln = 10, rf.uln = 20)
 }
 \arguments{
-\item{score}{numeric of serology test result}
+\item{ccp}{numeric of ccp test result}
 
-\item{uln}{numeric for upper limit of normal for the serology test}
+\item{rf}{numeric of rheumatoid factor test result}
+
+\item{ccp.uln}{numeric for upper limit of normal for the ccp test}
+
+\item{rf.uln}{numeric for upper limit of normal for the RF test}
 }
 \description{
 Calculates serology classification for CCP and/or rheumatoid factor given

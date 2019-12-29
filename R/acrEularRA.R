@@ -188,8 +188,10 @@ acrEularRAClassification <- function(object) {
 #' Calculates serology classification for CCP and/or rheumatoid factor given
 #' the test scores and the upper limit of normal..
 #'
-#' @param score numeric of serology test result
-#' @param uln numeric for upper limit of normal for the serology test
+#' @param ccp numeric of ccp test result
+#' @param rf numeric of rheumatoid factor test result
+#' @param ccp.uln numeric for upper limit of normal for the ccp test
+#' @param rf.uln numeric for upper limit of normal for the RF test
 #' @examples
 #' serologyClassification(ccp=9, rf=21, ccp.uln=10, rf.uln=20)
 #'
