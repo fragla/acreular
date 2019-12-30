@@ -20,7 +20,7 @@ datesToDuration <- function(onset, assessment) {
   }
 
   if (!is.Date(onset) || !is.Date(assessment)) {
-    return(NA)
+    stop("Non-date object found.")
   }
 
   duration <- as.numeric(assessment-onset)
