@@ -28,6 +28,103 @@ new_acrEularRA <- function(ljc=numeric(), sjc=numeric(), duration=numeric(),
   return(value)
 }
 
+#' Helper function for creating an acrEularRA class.
+#'
+#' Creates an acrEular RA object from different parameters. Converts dates to
+#' duration value and serology and acute phase reactant values to
+#' classifications.
+#'
+#' @param ljc large joint count. Numeric between 0 and 10 of total
+#' number of swollen and/or tender large joints.
+#' @param sjc  small joint count. Numeric between 0 and 18 of total
+#' number of swollen and/or tender small joints.
+#' @param duration numeric patient’s self-report on the maximum duration
+#' (in days) of signs and symptoms of any joint that is clinically
+#' involved at the time of assessment.
+#' @param onset Date signs and symptoms started.
+#' @param assessment Date of initial assessment.
+#' @param apr character acute phase reactant levels. "Normal" or "Abnormal"
+#' @param crp numeric of C-reactive protein test result.
+#' @param esr numeric of erythrocyte sedimentation rate test result.
+#' @param crp.uln numeric for upper limit of normal for the C-reactive protein test.
+#' @param esr.uln numeric for upper limit of normal for the erythrocyte sedimentation
+#' rate test.
+#' @param serology character CCP and/or rheumatoid factor levels. "Negative",
+#' "Low" positive or "High" positive.
+#' @param ccp numeric of ccp test result.
+#' @param rf numeric of rheumatoid factor test result.
+#' @param ccp.uln numeric for upper limit of normal for the ccp test
+#' @param rf.uln numeric for upper limit of normal for the RF test
+#'
+#' @return An acrEularRA object.
+#'
+#' @examples
+#'  obj1 <- acrEularRA(ljc=8, sjc=12, duration=43, apr="Normal", serology="High")
+#'  obj2 <- acrEularRA(ljc=8, sjc=12,
+#'              onset=as.Date("2010-01-01"), assessment=as.Date("2010-02-13"),
+#'              crp=5, esr=12, ccp=32, rf=71)
+#'
+#'  all.equal(obj1, obj2)
+#'
+#' @export
+acrEularRA <- function(ljc=numeric(), sjc=numeric(), duration=numeric(),
+                       onset=NULL, assessment=NULL, apr=character(),
+                       crp=numeric(), esr=numeric(), crp.uln=10, esr.uln=15,
+                       serology=character(), ccp=numeric(), rf=numeric(),
+                       ccp.uln=10, rf.uln=20) {
+
+  object <- new_acrEularRA()
+
+  ##Joint
+  if(length(ljc)==1 && ljc >=0 && ljc <=10) {
+    object$ljc <- ljc
+  }
+
+  if(length(sjc)==1 && sjc >=0 && sjc <=18) {
+    object$sjc <- sjc
+  }
+
+  #Duration
+  if(length(onset)==1 && length(assessment)==1) {
+    if(!is.na(onset) && !is.na(assessment)) {
+      object$duration <- datesToDuration(onset, assessment)
+    }
+  }
+
+  if(length(duration)==1 && duration > 0) {
+    if(length(object$duration) > 0 && object$duration!=duration) {
+      stop("duration and onset/assessment parameters used that give different value.")
+    }
+    object$duration <- duration
+  }
+
+  ##Serology
+  if((length(ccp)==1 && ccp>=0) || (length(rf)==1 && rf>=0)) {
+    object$serology <- serologyClassification(ccp=ccp, rf=rf, ccp.uln=ccp.uln, rf.uln=rf.uln)
+  }
+
+  if(length(serology)==1 && tolower(serology) %in% c("negative", "low", "high")) {
+    if(length(object$serology) > 0 && object$serology!=serology) {
+      stop("Serology test results and serology classification give different values.")
+    }
+    object$serology <- serology
+  }
+
+  ##Acute phase reactants
+  if((length(crp)==1 && crp>=0) || (length(esr)==1 && esr>=0)) {
+    object$apr <- aprClassification(crp=crp, esr=esr, crp.uln=crp.uln, esr.uln=esr.uln)
+  }
+
+  if(length(apr)==1 && tolower(apr) %in% c("normal", "abnormal")) {
+    if(length(object$apr) > 0 && object$apr!=apr) {
+      stop("Acute phase reactant test results and classification give different values.")
+    }
+    object$apr <- apr
+  }
+  return(object)
+
+}
+
 #' Calculate acute phase reactant component score
 #'
 #' Calculate acute phase reactant component score. Converts acute phase
