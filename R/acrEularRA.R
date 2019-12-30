@@ -99,7 +99,7 @@ jointScore <- function(object) {
   if(is.na(large) || is.na(small)) {
     return(NA)
   }
-  if (!all.equal(large, as.integer(large)) || !all.equal(small, as.integer(small))) {
+  if (large != as.integer(large) || small != as.integer(small)) {
     stop("Non-integer joint count value provided.")
   }
   if (large==1) {

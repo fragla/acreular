@@ -46,7 +46,7 @@ test_that("jointScore returns the correct value", {
   expect_true(is.na(jointScore(new_acrEularRA(ljc=7, sjc=NA_real_))))
   expect_true(is.na(jointScore(new_acrEularRA(ljc=NA_real_, sjc=1))))
 
-  expect_error(is.na(jointScore(new_acrEularRA(ljc=1.2, sjc=1))))
+  expect_error(jointScore(new_acrEularRA(ljc=1.2, sjc=1)))
 })
 
 test_that("serologyScore returns the correct value", {
