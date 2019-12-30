@@ -89,3 +89,20 @@ test_that("acrEularRAClassification returns the correct value", {
 
   expect_true(is.na(acrEularRAClassification(test3)))
 })
+
+test_that("acrEularRA helper function works correctly", {
+  test1 <- acrEularRA(ljc=8, sjc=12, duration=43, apr="Normal", serology="High")
+  test2 <- acrEularRA(ljc=8, sjc=12,
+                     onset=as.Date("2010-01-01"), assessment=as.Date("2010-02-13"),
+                     crp=5, esr=12, ccp=32, rf=71)
+
+  expect_equal(test1, test2)
+
+  expect_error(acrEularRA(duration=43, onset=as.Date("2010-01-01"), assessment=as.Date("2010-02-14")))
+  expect_error(acrEularRA(apr="Normal", crp=5, esr=16))
+  expect_error(acrEularRA(apr="Normal", crp=11, esr=12))
+  expect_error(acrEularRA(serology="Negative", ccp=32, rf=20))
+  expect_error(acrEularRA(serology="Negative", ccp=9, rf=21))
+
+})
+
