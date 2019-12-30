@@ -100,7 +100,7 @@ jointScore <- function(object) {
     return(NA)
   }
   if (!all.equal(large, as.integer(large)) || !all.equal(small, as.integer(small))) {
-    return(NA)
+    stop("Non-integer joint count value provided.")
   }
   if (large==1) {
     score <- 0
@@ -177,7 +177,7 @@ acrEularRAClassification <- function(object) {
   score <- acrEularRAScore(object)
 
   if(is.na(score))
-    return()
+    return(NA)
 
   classif <- ifelse(score >= 6, "RA (ACR/EULAR 2010)", "UA")
   return(classif)
@@ -225,7 +225,7 @@ serologyClassification <- function(ccp, rf, ccp.uln=10, rf.uln=20) {
    }
 
   if(is.na(uln) || !is.numeric(uln)) {
-    stop("Incorrect serolohy ULN parameter used.")
+    stop("Incorrect serology ULN parameter used.")
   }
 
    classification <- "Negative"

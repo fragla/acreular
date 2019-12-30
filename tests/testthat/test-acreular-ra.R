@@ -18,6 +18,8 @@ test_that("aprClassification returns the correct value", {
   expect_equal(aprClassification(crp=NA,esr=10, crp.uln=10, esr.uln=15), "Normal")
   expect_equal(aprClassification(crp=11,esr=NA, crp.uln=10, esr.uln=15), "Abnormal")
   expect_equal(aprClassification(crp=NA,esr=NA, crp.uln=10, esr.uln=15), NA)
+
+  expect_error(aprClassification(crp=10,esr=10, crp.uln=NA, esr.uln=NA))
 })
 
 test_that("durationScore returns the correct value", {
@@ -43,6 +45,8 @@ test_that("jointScore returns the correct value", {
 
   expect_true(is.na(jointScore(new_acrEularRA(ljc=7, sjc=NA_real_))))
   expect_true(is.na(jointScore(new_acrEularRA(ljc=NA_real_, sjc=1))))
+
+  expect_error(is.na(jointScore(new_acrEularRA(ljc=1.2, sjc=1))))
 })
 
 test_that("serologyScore returns the correct value", {
@@ -65,6 +69,8 @@ test_that("serologyClassification returns the correct value", {
   expect_equal(serologyClassification(ccp=11,rf=20, ccp.uln=10, rf.uln=20), "Low")
   expect_equal(serologyClassification(ccp=10,rf=61, ccp.uln=10, rf.uln=20), "High")
   expect_equal(serologyClassification(ccp=NA,rf=NA, ccp.uln=10, rf.uln=20), NA)
+
+  expect_error(serologyClassification(ccp=10,rf=10, ccp.uln=NA, rf.uln=NA))
 })
 
 test_that("acrEularRAScore returns the correct value", {
@@ -77,6 +83,9 @@ test_that("acrEularRAScore returns the correct value", {
 test_that("acrEularRAClassification returns the correct value", {
   test1 <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Normal", serology="Low")
   test2 <- new_acrEularRA(ljc=1,sjc=1,duration=62,apr="Abnormal", serology="Negative")
+  test3 <- new_acrEularRA(ljc=NA,sjc=NA,duration=NA,apr=NA, serology=NA)
   expect_equal(acrEularRAClassification(test1), "RA (ACR/EULAR 2010)")
   expect_equal(acrEularRAClassification(test2), "UA")
+
+  expect_true(is.na(acrEularRAClassification(test3)))
 })
