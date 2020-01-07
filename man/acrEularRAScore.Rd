@@ -4,10 +4,12 @@
 \alias{acrEularRAScore}
 \title{Calculate ACR/EULAR 2010 RA score}
 \usage{
-acrEularRAScore(object)
+acrEularRAScore(object, na.rm = FALSE)
 }
 \arguments{
 \item{object}{acrEularRA object}
+
+\item{na.rm}{boolean specifying whether to remove NAs from calculation}
 }
 \description{
 Calculates ACR/EULAR 2010 RA score from the individual components.

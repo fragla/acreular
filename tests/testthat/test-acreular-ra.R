@@ -76,8 +76,11 @@ test_that("serologyClassification returns the correct value", {
 test_that("acrEularRAScore returns the correct value", {
   test1 <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Normal", serology="Low")
   test2 <- new_acrEularRA(ljc=1,sjc=1,duration=62,apr="Abnormal", serology="Negative")
+  test3 <- new_acrEularRA(ljc=1,sjc=2,duration=42,apr="Abnormal", serology="Positive")
   expect_equal(acrEularRAScore(test1), 6)
   expect_equal(acrEularRAScore(test2), 4)
+  expect_equal(acrEularRAScore(test3, na.rm=TRUE), 3)
+  expect_true(is.na(acrEularRAScore(test3, na.rm=FALSE)))
 })
 
 test_that("acrEularRAClassification returns the correct value", {

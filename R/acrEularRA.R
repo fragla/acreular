@@ -250,13 +250,14 @@ serologyScore <- function(object) {
 #' Calculates ACR/EULAR 2010 RA score from the individual components.
 #'
 #' @param object acrEularRA object
+#' @param na.rm boolean specifying whether to remove NAs from calculation
 #' @examples
 #' acreular <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Abnormal",serology="High")
 #' acrEularRAScore(acreular)
 #'
 #' @export
-acrEularRAScore <- function(object) {
-  aprScore(object) + durationScore(object) + jointScore(object) + serologyScore(object)
+acrEularRAScore <- function(object, na.rm=FALSE) {
+  sum(aprScore(object), durationScore(object), jointScore(object), serologyScore(object), na.rm=na.rm)
 }
 
 #' Calculate ACR/EULAR 2010 RA classification
