@@ -3,8 +3,8 @@
 #' Calculate EULAR response from two DAS28-ESR or DAS28-CRP
 #' measurements.
 #'
-#' @param numeric das1 Initial DAS28-ESR/CRP measurement(s)
-#' @param numeric das2 Follow up DAS28-ESR/CRP measurement(s)
+#' @param das1 Initial DAS28-ESR/CRP measurement(s)
+#' @param das2 Follow up DAS28-ESR/CRP measurement(s)
 #' @examples
 #'   eularResponse(5.31, 1.3)
 #'

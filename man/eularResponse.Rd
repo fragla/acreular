@@ -7,9 +7,9 @@
 eularResponse(das1, das2)
 }
 \arguments{
-\item{numeric}{das1 Initial DAS28-ESR/CRP measurement(s)}
+\item{das1}{Initial DAS28-ESR/CRP measurement(s)}
 
-\item{numeric}{das2 Follow up DAS28-ESR/CRP measurement(s)}
+\item{das2}{Follow up DAS28-ESR/CRP measurement(s)}
 }
 \description{
 Calculate EULAR response from two DAS28-ESR or DAS28-CRP
