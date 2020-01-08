@@ -271,13 +271,34 @@ acrEularRAScore <- function(object, na.rm=FALSE) {
 #'
 #' @export
 acrEularRAClassification <- function(object) {
+  classif <- NA
 
-  score <- acrEularRAScore(object)
+  apr <- aprScore(object)
+  duration <- durationScore(object)
+  joint <- jointScore(object)
+  serology <- serologyScore(object)
 
-  if(is.na(score))
-    return(NA)
+  components <- c(apr=aprScore(object), duration=durationScore(object), joint=jointScore(object), serology=serologyScore(object))
 
-  classif <- ifelse(score >= 6, "RA (ACR/EULAR 2010)", "UA")
+  score <- sum(components, na.rm=TRUE)
+
+  if(score >= 6) {
+    classif <- "RA (ACR/EULAR 2010)"
+  } else {
+    if(all(!is.na(c(joint, duration, apr, serology)))) {
+      return("UA")
+    } else {
+      max.scores <- c(apr=1, duration=1, joint=5, serology=3)
+      missing <- names(components)[which(is.na(components))]
+      if(6 - score > sum(max.scores[missing])) {
+        classif <- "UA"
+      } else {
+        classif <- "More information required"
+      }
+    }
+  }
+
+  #classif <- ifelse(score >= 6, "RA (ACR/EULAR 2010)", "UA")
   return(classif)
 }
 

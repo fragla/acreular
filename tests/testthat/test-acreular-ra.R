@@ -84,14 +84,14 @@ test_that("acrEularRAScore returns the correct value", {
 })
 
 test_that("acrEularRAClassification returns the correct value", {
-  test1 <- new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Normal", serology="Low")
-  test2 <- new_acrEularRA(ljc=1,sjc=1,duration=62,apr="Abnormal", serology="Negative")
-  test3 <- new_acrEularRA(ljc=NA,sjc=NA,duration=NA,apr=NA, serology=NA)
-  expect_equal(acrEularRAClassification(test1), "RA (ACR/EULAR 2010)")
-  expect_equal(acrEularRAClassification(test2), "UA")
-
-  expect_true(is.na(acrEularRAClassification(test3)))
-})
+  expect_equal(acrEularRAClassification(new_acrEularRA(ljc=3,sjc=4,duration=60,apr="Normal", serology="Low")), "RA (ACR/EULAR 2010)")
+  expect_equal(acrEularRAClassification(new_acrEularRA(ljc=1,sjc=1,duration=62,apr="Abnormal", serology="Negative")), "UA")
+  expect_equal(acrEularRAClassification(new_acrEularRA(ljc=NA,sjc=NA,duration=NA,apr=NA, serology=NA)), "More information required")
+  expect_equal(acrEularRAClassification(new_acrEularRA(ljc=1,sjc=0,duration=23,apr=NA, serology=NA)), "UA")
+  expect_equal(acrEularRAClassification(new_acrEularRA(ljc=1,sjc=2,duration=23,apr=NA, serology="High")), "More information required")
+  expect_equal(acrEularRAClassification(new_acrEularRA(ljc=1,sjc=2,duration=23,apr=NA, serology="Low")), "UA")
+  expect_equal(acrEularRAClassification(new_acrEularRA(ljc=6,sjc=5,duration=50,apr=NA, serology=NA)), "RA (ACR/EULAR 2010)")
+  })
 
 test_that("acrEularRA helper function works correctly", {
   test1 <- acrEularRA(ljc=8, sjc=12, duration=43, apr="Normal", serology="High")
