@@ -80,7 +80,7 @@ acrEularRA <- function(ljc=numeric(), sjc=numeric(), duration=numeric(),
     object$ljc <- ljc
   }
 
-  if(length(sjc)==1 && sjc >=0 && sjc <=18) {
+  if(length(sjc)==1 && sjc >=0) { #} && sjc <=18) {
     object$sjc <- sjc
   }
 
@@ -91,15 +91,16 @@ acrEularRA <- function(ljc=numeric(), sjc=numeric(), duration=numeric(),
     }
   }
 
-  if(length(duration)==1 && duration > 0) {
+  if(!is.na(duration) && length(duration)==1 && duration > 0) {
     if(length(object$duration) > 0 && object$duration!=duration) {
       stop("duration and onset/assessment parameters used that give different value.")
     }
+
     object$duration <- duration
   }
 
   ##Serology
-  if((length(ccp)==1 && ccp>=0) || (length(rf)==1 && rf>=0)) {
+  if((!is.na(ccp) && length(ccp)==1 && ccp>=0) || (!is.na(rf) && length(rf)==1 && rf>=0)) {
     object$serology <- serologyClassification(ccp=ccp, rf=rf, ccp.uln=ccp.uln, rf.uln=rf.uln)
   }
 
@@ -111,7 +112,7 @@ acrEularRA <- function(ljc=numeric(), sjc=numeric(), duration=numeric(),
   }
 
   ##Acute phase reactants
-  if((length(crp)==1 && crp>=0) || (length(esr)==1 && esr>=0)) {
+  if((!is.na(crp) && length(crp)==1 && crp>=0) || (!is.na(esr) && length(esr)==1 && esr>=0)) {
     object$apr <- aprClassification(crp=crp, esr=esr, crp.uln=crp.uln, esr.uln=esr.uln)
   }
 
@@ -193,7 +194,7 @@ jointScore <- function(object) {
   large <- object$ljc
   small <- object$sjc
 
-  if(is.na(large) || is.na(small)) {
+  if(length(large)==0 || is.na(large) || length(small)==0 || is.na(small)) {
     return(NA)
   }
   if (large != as.integer(large) || small != as.integer(small)) {
@@ -230,6 +231,10 @@ jointScore <- function(object) {
 #' @export
 serologyScore <- function(object) {
   score <- NA
+
+  if(length(object$serology)==0) {
+    return(score)
+  }
 
   if((!is.na(object$serology) & tolower(object$serology) == "negative")) {
     score <- 0
@@ -390,12 +395,13 @@ aprClassification <- function(crp, esr, crp.uln=10, esr.uln=15) {
   return(classif)
 }
 
-.aprClassif <- function(score, uln) {
-  if(is.na(score) || !is.numeric(score)) {
+.aprClassif <- function(score=numeric(), uln=numeric()) {
+
+  if(is.na(score) || !is.numeric(score) || length(score)==0) {
     return(NA)
   }
 
-  if(is.na(uln) || !is.numeric(uln)) {
+  if(is.na(uln) || !is.numeric(uln) || length(uln)==0) {
     stop("Incorrect APR ULN parameter used.")
   }
 

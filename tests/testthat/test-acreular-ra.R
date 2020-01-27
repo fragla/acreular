@@ -1,15 +1,11 @@
 context("Testing acreular RA scoring methods")
 
 test_that("aprScore returns the correct AcrEularRA score", {
-  test1 <- new_acrEularRA(apr="Normal")
-  test2 <- new_acrEularRA(apr="Abnormal")
-  test3 <- new_acrEularRA(apr="")
-  test4 <- new_acrEularRA(apr=NA_character_)
-
-  expect_equal(aprScore(test1), 0)
-  expect_equal(aprScore(test2), 1)
-  expect_equal(aprScore(test3), NA)
-  expect_equal(aprScore(test4), NA)
+  expect_equal(aprScore(new_acrEularRA(apr="Normal")), 0)
+  expect_equal(aprScore(new_acrEularRA(apr="Abnormal")), 1)
+  expect_equal(aprScore(new_acrEularRA(apr="")), NA)
+  expect_equal(aprScore(new_acrEularRA(apr=NA_character_)), NA)
+  expect_equal(aprScore(new_acrEularRA()), NA)
 })
 
 test_that("aprClassification returns the correct value", {
