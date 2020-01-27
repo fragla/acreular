@@ -16,6 +16,10 @@ Encoding: UTF-8
 LazyData: true
 Suggests: 
     testthat,
+    shiny,
+    mime,
+    readxl,
+    DT,
     covr
 URL: https://github.com/fragla/acreular
 BugReports: https://github.com/fragla/acreular/issues
