@@ -20,6 +20,7 @@ Suggests:
     mime,
     readxl,
     DT,
+    shinycssloaders,
     covr
 URL: https://github.com/fragla/acreular
 BugReports: https://github.com/fragla/acreular/issues
