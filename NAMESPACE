@@ -3,6 +3,7 @@
 export(acrEularRA)
 export(acrEularRAClassification)
 export(acrEularRAScore)
+export(acrResponse)
 export(aprClassification)
 export(aprScore)
 export(datesToDuration)
