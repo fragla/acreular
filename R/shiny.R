@@ -11,7 +11,7 @@
 #' }
 #' @export
 shiny_acreular <- function(display.mode = "normal") {
-  pkgs <- c("shiny", "DT", "mime", "readxl", "shinycssloaders")
+  pkgs <- c("shiny", "DT", "FSA", "ggplot2", "ggiraph", "ggiraphExtra", "mime", "parsedate", "PMCMRplus", "readxl", "shinycssloaders", "shinyWidgets")
   missing <- sapply(pkgs, function(x){!requireNamespace(x, quietly=TRUE)})
   if (any(missing)) {
     stop(paste("The following package(s) are required for shiny_acreular to work:",
