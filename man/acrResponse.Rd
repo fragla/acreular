@@ -10,6 +10,8 @@ acrResponse(acr1, acr2, na.rm = TRUE)
 \item{acr1}{acrRA object with initial measurements.}
 
 \item{acr2}{acrRA object with follow up measurements.}
+
+\item{na.rm}{logical. Should missing values be removed.}
 }
 \description{
 Calculate ACR 20/50/70 response from SJC, TJC, patient global assessment,

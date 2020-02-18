@@ -133,6 +133,7 @@ acrRA <- function(sjc=numeric(), tjc=numeric(), ptGA=numeric(), ptPain=numeric()
 #'
 #' @param acr1 acrRA object with initial measurements.
 #' @param acr2 acrRA object with follow up measurements.
+#' @param na.rm logical. Should missing values be removed.
 #'
 #' @examples
 #'   acr1 <- acrRA(sjc=8, tjc=12, ptGA=50, ptPain=35, phGA=60, haq=0.850, apr=15)
