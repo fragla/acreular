@@ -135,6 +135,8 @@ acrRA <- function(sjc=numeric(), tjc=numeric(), ptGA=numeric(), ptPain=numeric()
 #' @param acr2 acrRA object with follow up measurements.
 #'
 #' @examples
+#'   acr1 <- acrRA(sjc=8, tjc=12, ptGA=50, ptPain=35, phGA=60, haq=0.850, apr=15)
+#'   acr2 <- acrRA(sjc=4, tjc=7, ptGA=20, ptPain=25, phGA=30, haq=0.350, apr=10)
 #'
 #'   acrResponse(acr1, acr2)
 #'
