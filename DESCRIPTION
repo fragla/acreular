@@ -20,7 +20,14 @@ Suggests:
     mime,
     readxl,
     DT,
+    ggplot2,
+    FSA,
+    ggiraph,
+    ggiraphExtra,
+    parsedate,
+    PMCMRplus,
     shinycssloaders,
+    shinyWidgets,
     covr
 URL: https://github.com/fragla/acreular
 BugReports: https://github.com/fragla/acreular/issues
