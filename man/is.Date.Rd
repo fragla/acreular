@@ -2,15 +2,16 @@
 % Please edit documentation in R/utilityFunctions.R
 \name{is.Date}
 \alias{is.Date}
-\title{Checks if object is of class Date.}
+\title{Test for objects of type "Date"}
 \usage{
 is.Date(x)
 }
 \arguments{
-\item{date}{}
+\item{x}{object to be tested.}
 }
 \description{
-Checks if object is of class Date.
+Checks if an object inherits class Date. Used prior to calculating durations
+from two dates.
 }
 \examples{
 date <- as.Date("2010-01-01")

@@ -1,7 +1,9 @@
-#' Checks if object is of class Date.
+#' Test for objects of type "Date"
 #'
+#' Checks if an object inherits class Date. Used prior to calculating durations
+#' from two dates.
 #'
-#' @param date
+#' @param x object to be tested.
 #'
 #' @examples
 #' date <- as.Date("2010-01-01")
