@@ -32,59 +32,148 @@ eularResponse <- function(das1, das2) {
   return(response)
 }
 
+#' Create a new acrRA class
+#'
+#' \code{new_acrRA} returns an acrRA object.
+#'
+#' @param sjc numeric swollen joint count.
+#' @param tjc numeric tender joint count.
+#' @param ptGA numeric patient global assessment score.
+#' @param ptPain numeric patient pain assessment score.
+#' @param phGA numeric physician global assessment score.
+#' @param haq numeric health assessment questionairre score.
+#' @param apr numeric acute phase reactant value.
+#'
+#' @return An acrRA object.
+#'
+#' @examples
+#'  obj <- new_acrRA(sjc=8, tjc=12, ptGA=50, ptPain=29, phGA=60, haq=0.875, apr=15)
+#'
+#' @export
+new_acrRA <- function(sjc=numeric(), tjc=numeric(), ptGA=numeric(), ptPain=numeric(), phGA=60, haq=numeric(), apr=numeric()) {
+
+  value <- list(sjc=sjc, tjc=tjc, ptGA=ptGA, ptPain=ptPain, phGA=phGA, haq=haq, apr=apr)
+
+  attr(value, "class") <- "acrRA"
+  return(value)
+}
+
+#' Helper function for creating an acrRA class.
+#'
+#' Creates an acr RA object from different parameters used in calculating
+#' ACR20/50/70 scores.
+#'
+#' @param sjc numeric swollen joint count. Numeric between 0 and 28 of total
+#' number of swollen.
+#' @param tjc numeric tender joint count. Numeric between 0 and 28 of total
+#' number of twollen.
+#' @param ptGA numeric patient global assessment score between 0 and 100.
+#' @param ptPain numeric patient pain assessment score between 0 and 100.
+#' @param phGA numeric physician global assessment score between 0 and 100.
+#' @param haq numeric health assessment questionairre score between 0 and 3.
+#' @param apr numeric acute phase reactant value. Either CRP or ESR
+#'
+#' @return An acrRA object.
+#'
+#' @examples
+#'  obj1 <- acrRA(sjc=8, tjc=12, ptGA=50, ptPain=35, phGA=60, haq=0.850, apr=15)
+#'  obj2 <- acrRA(sjc=4, tjc=7, ptGA=20, ptPain=25, phGA=30, haq=0.350, apr=10)
+#'
+#'  acrResponse(obj1, obj2)
+#'
+#'
+#' @export
+acrRA <- function(sjc=numeric(), tjc=numeric(), ptGA=numeric(), ptPain=numeric(), phGA=numeric(), haq=numeric(), apr=numeric()) {
+
+  object <- new_acrRA()
+
+  ##Joint
+  if(!is.empty(sjc) && sjc >=0 && sjc <=28) {
+    object$sjc <- sjc
+  }
+
+  if(!is.empty(tjc) && tjc >=0 && tjc <=28) {
+    object$tjc <- tjc
+  }
+
+  #Patient Global Assessment
+  if(!is.empty(ptGA) && ptGA >=0 && ptGA <=100) {
+    object$ptGA <- ptGA
+  }
+
+  #Patient Pain Assessment
+  if(!is.empty(ptPain) && ptPain >=0 && ptPain <=100) {
+    object$ptPain <- ptPain
+  }
+
+  #Physician Global Assessment
+  if(!is.empty(phGA) && phGA >=0 && phGA <=100) {
+    object$phGA <- phGA
+  }
+
+  #Health Assessment Questionnaire
+  if(!is.empty(haq) && haq >=0 && haq <=3) { #include others?
+    object$haq <- haq
+  }
+
+  #Acute phase reactant
+  if(!is.empty(apr) && apr >=0) {
+    object$apr <- apr
+  }
+
+  return(object)
+
+}
+
 #' Calculate ACR 20/50/70 response
 #'
 #' Calculate ACR 20/50/70 response from SJC, TJC, patient global assessment,
 #' patient pain VAS, physician global assessment, HAQ and
 #' measurements.
 #'
-#' @param sjc1 numeric initial swollen joint count.
-#' @param sjc2 numeric follow up swollen joint count.
-#' @param tjc1 numeric initial tender joint count.
-#' @param tjc1 numeric follow up tender joint count.
-#' @param ptGA1 numeric initial patient global assessment score.
-#' @param ptGA2 numeric follow up patient global assessment score.
-#' @param ptPain1 numeric initial patient pain assessment score.
-#' @param ptPain2 numeric initial patient pain assessment score.
-#' @param phGA1 numeric initial physician global assessment score.
-#' @param phGA2 numeric follow up physician global assessment score.
-#' @param haq1 numeric initial health assessment questionairre score.
-#' @param haq2 numeric follow health assessment questionairre score.
-#' @param apr1 numeric initial acute phase reactant value.
-#' @param apr2 numeric follow up acute phase reactant value.
+#' @param acr1 acrRA object with initial measurements.
+#' @param acr2 acrRA object with follow up measurements.
 #'
 #' @examples
 #'
-#'   acrResponse(tjc1=6, tjc2=1, sjc1=6, sjc2=1,
-#'               ptGA1=17, ptGA2=1, ptPain1=11, ptPain2=1,
-#'               phGA1=60, phGA2=5, haq1=5, haq2=3, apr1=24, apr2=5)
+#'   acrResponse(acr1, acr2)
 #'
 #' @export
-acrResponse <- function(tjc1, tjc2, sjc1, sjc2, ptGA1, ptGA2, ptPain1, ptPain2, phGA1, phGA2, haq1, haq2, apr1, apr2) {
+acrResponse <- function(acr1, acr2, na.rm=TRUE) {
   percentDecrease <- function(original, current) {
     decrease <- (original - current) / original * 100
     return(decrease)
   }
 
   ##percent decrease values
-  tjc <- percentDecrease(tjc1, tjc2)
-  sjc <- percentDecrease(sjc1, sjc2)
-  ptGA <- percentDecrease(ptGA1, ptGA2)
-  ptPain <- percentDecrease(ptPain1, ptPain2)
-  phGA <- percentDecrease(phGA1, phGA2)
-  haq <- percentDecrease(haq1, haq2)
-  apr <- percentDecrease(apr1, apr2)
+  tjc <- percentDecrease(acr1$tjc, acr2$tjc)
+  sjc <- percentDecrease(acr1$sjc, acr2$sjc)
+  ptGA <- percentDecrease(acr1$ptGA, acr2$ptGA)
+  ptPain <- percentDecrease(acr1$ptPain, acr2$ptPain)
+  phGA <- percentDecrease(acr1$phGA, acr2$phGA)
+  haq <- percentDecrease(acr1$haq, acr2$haq)
+  apr <- percentDecrease(acr1$apr, acr2$apr)
 
-  if(any(is.na(c(tjc, sjc, ptGA, ptPain, phGA, haq, apr))))
-    return(NA)
+  if(is.empty(tjc) || is.empty(sjc)) {
+    return("Incomplete data")
+  }
 
-  if(tjc >= 70 & sjc >= 70 & sum(c(ptGA, ptPain, phGA, haq, apr) >=70) >= 3) {
+  if(na.rm==FALSE && any(is.empty(c(tjc, sjc, ptGA, ptPain, phGA, haq, apr))))
+    return("Incomplete data")
+
+  if(tjc >= 70 & sjc >= 70 & sum(c(ptGA, ptPain, phGA, haq, apr) >=70, na.rm=na.rm) >= 3) {
     return("ACR70")
-  } else if (tjc >= 50 & sjc >= 50 & sum(c(ptGA, ptPain, phGA, haq, apr) >=50) >= 3) {
+  }
+
+  else if (tjc >= 50 & sjc >= 50 & sum(c(ptGA, ptPain, phGA, haq, apr) >=50, na.rm=na.rm) >= 3) {
     return("ACR50")
-  } else if (tjc >= 20 & sjc >= 20 & sum(c(ptGA, ptPain, phGA, haq, apr) >=20) >= 3) {
+  }
+
+  else if (tjc >= 20 & sjc >= 20 & sum(c(ptGA, ptPain, phGA, haq, apr) >=20, na.rm=na.rm) >= 3) {
     return("ACR20")
-  } else {
+  }
+
+  else {
     return("No response")
   }
 }
