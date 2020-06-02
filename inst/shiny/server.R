@@ -12,7 +12,7 @@ library(parsedate)
 
 options(shiny.sanitize.errors = FALSE)
 
-#addResourcePath('example-data', system.file("extdata", package="acreular"))
+addResourcePath('example-data', system.file("extdata", package="acreular"))
 
 shinyServer(function(input, output) {
 

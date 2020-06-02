@@ -1,6 +1,8 @@
 library(ggiraph)
 library(shinycssloaders)
 
+options(shiny.sanitize.errors = FALSE)
+
 shinyUI(
   navbarPage(title="acreular",
              header=singleton(tags$head(
@@ -17,7 +19,11 @@ shinyUI(
           hr(),
           uiOutput("choose_condition"),
           uiOutput("choose_display_columns"),
-          uiOutput("choose_criteria")
+          uiOutput("choose_criteria"),
+          hr(),
+          h5("Example data"),
+          p("ACR/EULAR and DAS example data:", a(img(src="images/icons8-microsoft-excel-48.png", height = 24, width = 24), href="example-data/example_acreular_das.xlsx", target="_blank"), style="margin-bottom:0"),
+
         )
       ),
       mainPanel(
