@@ -31,4 +31,4 @@ Suggests:
     covr
 URL: https://github.com/fragla/acreular
 BugReports: https://github.com/fragla/acreular/issues
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
