@@ -2,10 +2,10 @@
 #'
 #' \code{new_acrEularRA} returns an acrEularRA object.
 #'
-#' @param ljc numeric large joint count. Value between 0 and 10 of total
-#' number of swollen and/or tender large joints.
-#' @param sjc numeric small joint count. Value between 0 and 18 of total
-#' number of swollen and/or tender small joints.
+#' @param ljc numeric large joint count. Number of swollen and/or tender
+#' large joints.
+#' @param sjc numeric small joint count. Number of swollen and/or tender
+#' small joints.
 #' @param duration numeric patient’s self-report on the maximum duration
 #' (in days) of signs and symptoms of any joint that is clinically
 #' involved at the time of assessment.
@@ -377,7 +377,7 @@ serologyClassification <- function(ccp, rf, ccp.uln=10, rf.uln=20) {
 #' aprClassification(crp=9, esr=16, crp.uln=10, esr.uln=15)
 #'
 #' @export
-aprClassification <- function(crp, esr, crp.uln=10, esr.uln=15) {
+aprClassification <- function(crp, esr, crp.uln=10, esr.uln=15) { #esr correct for age and gender?
   #what if only ccp or rf done
   crp <- .aprClassif(crp, crp.uln)
   esr <- .aprClassif(esr, esr.uln)
