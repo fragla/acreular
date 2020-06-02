@@ -103,7 +103,7 @@ The app is launched using the ***shiny_acreular*** function.
 ```{r shiny, echo=TRUE, eval=FALSE}
 shiny_acreular()
 ```
-Alternatively, it can be accessed without installing R/Shiny/eq5d by visiting [shinyapps.io](https://fragla.shinyapps.io/acreular-eq5d).
+Alternatively, it can be accessed without installing R/Shiny/eq5d by visiting [shinyapps.io](https://fragla.shinyapps.io/shiny-acreular).
 
 ## License
 

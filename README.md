@@ -123,7 +123,7 @@ shiny_acreular()
 ```
 
 Alternatively, it can be accessed without installing R/Shiny/eq5d by
-visiting [shinyapps.io](https://fragla.shinyapps.io/acreular-eq5d).
+visiting [shinyapps.io](https://fragla.shinyapps.io/shiny-acreular).
 
 ## License
 
