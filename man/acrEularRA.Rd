@@ -4,11 +4,23 @@
 \alias{acrEularRA}
 \title{Helper function for creating an acrEularRA class.}
 \usage{
-acrEularRA(ljc = numeric(), sjc = numeric(), duration = numeric(),
-  onset = NULL, assessment = NULL, apr = character(),
-  crp = numeric(), esr = numeric(), crp.uln = 10, esr.uln = 15,
-  serology = character(), ccp = numeric(), rf = numeric(),
-  ccp.uln = 10, rf.uln = 20)
+acrEularRA(
+  ljc = numeric(),
+  sjc = numeric(),
+  duration = numeric(),
+  onset = NULL,
+  assessment = NULL,
+  apr = character(),
+  crp = numeric(),
+  esr = numeric(),
+  crp.uln = 10,
+  esr.uln = 15,
+  serology = character(),
+  ccp = numeric(),
+  rf = numeric(),
+  ccp.uln = 10,
+  rf.uln = 20
+)
 }
 \arguments{
 \item{ljc}{large joint count. Numeric between 0 and 10 of total

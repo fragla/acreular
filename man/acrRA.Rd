@@ -4,9 +4,15 @@
 \alias{acrRA}
 \title{Helper function for creating an acrRA class.}
 \usage{
-acrRA(sjc = numeric(), tjc = numeric(), ptGA = numeric(),
-  ptPain = numeric(), phGA = numeric(), haq = numeric(),
-  apr = numeric())
+acrRA(
+  sjc = numeric(),
+  tjc = numeric(),
+  ptGA = numeric(),
+  ptPain = numeric(),
+  phGA = numeric(),
+  haq = numeric(),
+  apr = numeric()
+)
 }
 \arguments{
 \item{sjc}{numeric swollen joint count. Numeric between 0 and 28 of total

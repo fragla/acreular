@@ -4,8 +4,15 @@
 \alias{new_acrRA}
 \title{Create a new acrRA class}
 \usage{
-new_acrRA(sjc = numeric(), tjc = numeric(), ptGA = numeric(),
-  ptPain = numeric(), phGA = 60, haq = numeric(), apr = numeric())
+new_acrRA(
+  sjc = numeric(),
+  tjc = numeric(),
+  ptGA = numeric(),
+  ptPain = numeric(),
+  phGA = 60,
+  haq = numeric(),
+  apr = numeric()
+)
 }
 \arguments{
 \item{sjc}{numeric swollen joint count.}

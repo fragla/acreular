@@ -4,8 +4,13 @@
 \alias{new_acrEularRA}
 \title{Create a new acrEularRA class}
 \usage{
-new_acrEularRA(ljc = numeric(), sjc = numeric(),
-  duration = numeric(), apr = character(), serology = character())
+new_acrEularRA(
+  ljc = numeric(),
+  sjc = numeric(),
+  duration = numeric(),
+  apr = character(),
+  serology = character()
+)
 }
 \arguments{
 \item{ljc}{numeric large joint count. Value between 0 and 10 of total
