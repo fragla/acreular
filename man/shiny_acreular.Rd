@@ -13,7 +13,7 @@ shiny_acreular(display.mode = "normal")
 \code{shiny_acreular} launches a shiny interface for browser based ACR/EULAR calculations.
 }
 \examples{
-\donttest{
+\dontrun{
 shiny_acreular()
 shiny_acreular(display.mode="normal")
 }
